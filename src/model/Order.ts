@@ -1,34 +1,30 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
-import Order from "./Order";
+import UserModel from "./UserModel";
 
-class Payment extends Model {}
+class Order extends Model {}
 
-Payment.init(
+Order.init(
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    order_id: {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: Order,
+        model: UserModel,
         key: "id",
       },
     },
-    amount: {
+    total_amount: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
     },
-    payment_method: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
     status: {
-      type: DataTypes.ENUM("pending", "completed", "failed"),
+      type: DataTypes.ENUM("pending", "completed", "canceled"),
       allowNull: false,
       defaultValue: "pending",
     },
@@ -39,12 +35,11 @@ Payment.init(
   },
   {
     sequelize,
-    modelName: "Payment",
-    tableName: "payments",
+    modelName: "Order",
+    tableName: "orders",
   }
 );
 
-// Relacionamento: Um pagamento pertence a um pedido
-Payment.belongsTo(Order, { foreignKey: "order_id" });
+Order.belongsTo(UserModel, { foreignKey: "user_id" });
 
-export default Payment;
+export default Order;

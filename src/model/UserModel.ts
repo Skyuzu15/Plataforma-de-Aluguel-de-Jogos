@@ -1,41 +1,34 @@
 import { DataTypes, Model } from "sequelize";
-import sequelize from '../config/database';
+import sequelize from "../config/database";
 
 class UserModel extends Model {}
 
-UserModel.init({
+UserModel.init(
+  {
     id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
     name: {
-        type: DataTypes.STRING,
-        allowNull: false
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     email: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique:true,
-        validate: {
-            isEmail: true,
-        },
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
     },
     password: {
-        type: DataTypes.STRING,
-        allowNull: false,
+      type: DataTypes.STRING,
+      allowNull: false,
     },
-    role: {
-        type: DataTypes.ENUM("admin", "cliente",),
-        allowNull: false,
-        defaultValue: "cliente",
-    },
-},
-{
+  },
+  {
     sequelize,
-    modelName: 'UserModel',
-    tableName: 'users'
-}
-)
+    modelName: "User",
+    tableName: "users",
+  }
+);
 
-export default UserModel
+export default UserModel;

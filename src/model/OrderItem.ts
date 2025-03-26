@@ -1,22 +1,22 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
-import UserModel from "./UserModel";
+import Order from "./Order";
 import Game from "./Game";
 
-class Review extends Model {}
+class OrderItem extends Model {}
 
-Review.init(
+OrderItem.init(
   {
     id: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    user_id: {
+    order_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: UserModel,
+        model: Order,
         key: "id",
       },
     },
@@ -28,32 +28,24 @@ Review.init(
         key: "id",
       },
     },
-    rating: {
+    quantity: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      validate: {
-        min: 1,
-        max: 5,
-      },
+      defaultValue: 1,
     },
-    comment: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    created_at: {
-      type: DataTypes.DATE,
-      defaultValue: DataTypes.NOW,
+    price: {
+      type: DataTypes.DECIMAL(10, 2),
+      allowNull: false,
     },
   },
   {
     sequelize,
-    modelName: "Review",
-    tableName: "reviews",
+    modelName: "OrderItem",
+    tableName: "order_items",
   }
 );
 
-// Relacionamentos
-Review.belongsTo(UserModel, { foreignKey: "user_id" });
-Review.belongsTo(Game, { foreignKey: "game_id" });
+OrderItem.belongsTo(Order, { foreignKey: "order_id" });
+OrderItem.belongsTo(Game, { foreignKey: "game_id" });
 
-export default Review;
+export default OrderItem;
