@@ -67,12 +67,12 @@ app.get('/orderitem', async (req, res) => {
 sequelize
     .sync({ alter: true }) 
     .then(() => {
-        console.log("Banco sincronizado com sucesso!");
+        console.log("Deu bom!");
 
         app.listen(port, () => {
             console.log(`Servidor rodando na porta ${port}`);
         });
     })
     .catch((error) => {
-        console.error("Erro ao sincronizar o banco:", error);
+        console.error("F total", error);
     });
